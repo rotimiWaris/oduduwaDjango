@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head_title %} Home {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+{% if request.user.id == user.id %}
+<div class="container">
+    <h3 class="mt-4">Delete "<a href="{% url 'blog:detail' object.pk %}">{{ object.title }}</a>"</h3>
+
+    <div class="form-group">
+        <form method="post" class="border border-light p-5">
+            {% csrf_token %}
+            <div class="text-center" style="padding-bottom: 106px;">
+                <button type="submit" class="btn btn-lg btn-outline-danger waves-effect">Delete Post</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+    <div class="text-center mt-5 mb-5">
+        <h1>You're not allowed here!</h1>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_script %}
+  
+{% endblock extra_script %}

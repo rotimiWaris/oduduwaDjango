@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head_title %} Home {% endblock %}
+
+{% block extra_head %}
+<meta name="generator" content="Mobirise v4.3.0, mobirisethemes.com">
+  <link rel="stylesheet" href="{% static 'odu-prod/assets/theme/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'odu-prod/assets/mobirise/css/mbr-additional.css' %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+    <section class="mbr-section content4 bg-white" id="content4-2" data-rv-view="489">
+        <div class="container">
+            <div class="media-container-row">
+                <div class="title col-12 col-md-8">
+                    <h2 class="align-center pb-3 mbr-fonts-style display-2">
+                        {{ page_user }}
+
+                        {% if user.is_authenticated %}
+                            {% if user.id == userprofile.user.id %}
+                                <span> - <a href="{% url 'main:edit-profile' user.userprofile.id %}">Edit Your Profile</a></span>
+                            {% endif %}
+                        {% endif %}
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cid-qweRjbQerA" id="image1-3" data-rv-view="491">
+    
+        
+    
+        <figure class="mbr-figure container">
+                <div class="image-block" style="width: 66%;">
+                    {% if page_user.profile_pic %}
+                        <a href="{{ page_user.profile_pic.url }}"><img src="{{ page_user.profile_pic.url }}" alt="" width="1400" title="" media-simple="true"></a>
+                    {% else %}
+                    <div class="text-center">
+                        <img src="{% static 'odu-prod/img/profile/default-profile.jpg' %}" alt="Profile Pic" style="width: 50%; margin-left: 25%;" title="" media-simple="true">
+                    </div>
+                    {% endif %}
+                </div>
+        </figure>
+    </section>
+    
+    {% if page_user.role or page_user.class_name %}
+    <section class="mbr-section article content12 cid-qweRCEOYwi" id="content12-7" data-rv-view="497">
+         
+        <div class="container">
+            <div class="media-container-row">
+                <div class="mbr-text counter-container col-12 col-md-8 mbr-fonts-style display-7">
+                    <ul>
+                        {% if page_user.role %}
+                        <li><strong>Role</strong> - {{ page_user.role }}.</li>
+                        {% endif %}
+                        {% if page_user.class_name %}
+                        <li><strong>Class</strong> - {{ page_user.class_name }}.</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="mbr-section article content1 cid-qweRvYHJD8" id="content1-4" data-rv-view="493">
+        
+         
+    
+        <div class="container">
+            <div class="media-container-row">
+                <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">{{ page_user.bio|safe|linebreaks }}</div>
+            </div>
+        </div>
+    </section>
+    
+    
+{% endblock  %}
+  
+{% block extra_script %}
+<script src="{% static 'odu-prod/assets/smooth-scroll/smooth-scroll.js' %}"></script>
+<script src="{% static 'odu-prod/assets/touch-swipe/jquery.touch-swipe.min.js' %}"></script>
+{% endblock extra_script %}

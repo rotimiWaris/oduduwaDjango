@@ -1,0 +1,48 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'odu-prod/css/form.css' %}">
+    <style>
+      body {
+        background: #ccc;
+      }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+  <section class="signup">
+    <div class="container-form">
+        <div class="signup-content mt-5 mb-5">
+
+        <form class="signup-form" id="signup-form" method="post" action="{% url 'account_signup' %}">
+          <div class="text-center mb-3">
+            <h3>{% trans "Sign Up" %}</h3>
+          </div>
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.as_p }}
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+          </div>
+          <button type="submit" class="form-submit btn">{% trans "Sign Up" %} &raquo;</button>
+        </form>
+        <p class="loginhere">
+          {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}" class="loginhere-link">Sign In</a>.{% endblocktrans %}
+        </p>
+        </div>
+      </div>
+    </section>
+</div>
+
+{% endblock %}
+
+{% block extra_script %}
+    <script src="{% static 'odu-prod/js/form.js' %}"></script>
+{% endblock %}

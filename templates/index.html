@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head_title %} Home {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+<!-- popular_program_area  -->
+{% comment %} 
+{% include "snippets/pop_prog_area.html" %}
+
+<!-- latest_coures_area  -->
+{% include "snippets/latest_courses_area.html" %}
+
+<!-- recent_event_area -->
+{% include "snippets/recent_event_area.html" %}
+
+<!-- admissions_area -->
+{% include "snippets/admissions_area.html" %}
+
+<!-- recent_news_area -->
+{% include "snippets/recent_news_area.html" %}
+{% endcomment %}
+
+{% block content %}
+<!-- slider_area -->
+{% include "snippets/slider_area.html" %}
+
+<!-- service_area  -->
+{% include "snippets/service_area.html" %}
+
+{% endblock %}
+
+{% block extra_script %}
+  
+{% endblock extra_script %}

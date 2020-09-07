@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head_title %} Home {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+  <!-- bradcam_area_start  -->
+  <div class="bradcam_area breadcam_bg">
+      <div class="container">
+          <div class="row">
+              <div class="col-xl-12">
+                  <div class="bradcam_text">
+                      <h3>Single Blog</h3>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- bradcam_area_end  -->
+
+   <!--================Blog Area =================-->
+   <section class="blog_area single-post-area section-padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-8 posts-list">
+               <div class="single-post">
+                  {% if object.image %}
+                  <div class="feature-img">
+                     <img class="img-fluid" src="{{ object.image.url }}" alt="" style="width: 80%;">
+                  </div>
+                  {% endif %}
+                  <div class="blog_details">
+                     <h2>{{ object.title }}</h2>
+                     <ul class="blog-info-link mt-3 mb-4">
+                        <li><a href="{% url 'blog:category' object.category|slugify %}" style="text-transform: capitalize;"><i class="fa fa-user"></i> {{ object.category }}</a></li>
+                        
+                        {% if comments %}
+                        <li><a href="#comment"><i class="fa fa-comments"></i> {{ comments.count }} Comment{{ comments|pluralize }}</a></li>
+                        {% else %}
+                        <li><i class="fa fa-comments"></i> 0 Comment</li>
+                        {% endif %}
+                           
+                        {% if request.user.id == object.user.id %}
+                           <li><a href="{% url 'blog:update' object.slug %}">Edit</a></li>
+                           <li><a href="{% url 'blog:delete' object.slug %}">Delete</a></li>
+                        {% endif %}
+                     </ul>
+                     <p class="excert">
+                        {{ object.content|safe|linebreaks }}
+                     </p>
+                  </div>
+               </div>
+               <div id="like"></div>
+               <div class="navigation-top">
+                  <div class="d-sm-flex justify-content-between text-center">
+                     <p class="like-info">
+                        <span class="align-middle">
+                           {% if user.is_authenticated %}
+                              <form action="{% url 'blog:like-post' object.slug %}#like" method="POST">
+                                 {% csrf_token %}
+                                 {% if liked %}
+                                    <button name="post_id" value="{{ object.slug }}" style="background: none; border: none;">
+                                       <i class="fas fa-heart" style="cursor: pointer;"></i>
+                                       {% if total_likes == 1 %}
+                                       Liked by you
+                                       {% elif total_likes == 2 %}
+                                       Liked by you and {{ total_likes|add:"-1" }} other
+                                       {% else %}
+                                       Liked by you and {{ total_likes|add:"-1" }} others
+                                       {% endif %}
+                                    </button>
+                                 {% else %}
+                                    <button name="post_id" value="{{ object.slug }}" style="background: none; border: none;">
+                                       <i class="far fa-heart" style="cursor: pointer;"></i>
+                                    </button>
+                                    {% if total_likes == 0 %}
+                                       {{ total_likes }} Like
+                                    {% else %}
+                                       {{ total_likes }} Like{{ total_likes|pluralize }}
+                                    {% endif %}
+                                 {% endif %}
+                                    
+                              </form>
+                           {% else %}
+                              <i class="fa fa-heart"></i>
+                              {% if total_likes == 0 %}
+                              0 Likes
+                              {% elif total_likes == 1 %}
+                              Liked by 1 person
+                              {% else %}
+                              Liked by {{ total_likes }} people
+                              {% endif %}
+                           {% endif %}
+                        </span>
+                     </p>
+                     <div class="col-sm-4 text-center my-2 my-sm-0">
+                        <!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
+                     </div>
+                  </div>
+
+                  <div class="navigation-area">
+                     <div class="row">
+                        {% if object.get_previous_by_timestamp %}
+                        <div
+                           class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                           {% if object.get_previous_by_timestamp.image %}
+                           <div class="thumb">
+                              <a href="{% url 'blog:detail' object.get_previous_by_timestamp.slug %}">
+                                 <img class="img-fluid" src="{{ object.get_previous_by_timestamp.image.url }}" alt="" style="width: 100px;">
+                              </a>
+                           </div>
+                           {% endif %}
+                           <div class="arrow">
+                              <a href="{% url 'blog:detail' object.get_previous_by_timestamp.slug %}">
+                                 <span class="lnr text-white ti-arrow-left"></span>
+                              </a>
+                           </div>
+                           <div class="detials">
+                              <p>Prev Post</p>
+                              <a href="{% url 'blog:detail' object.get_previous_by_timestamp.slug %}">
+                                 <h4>{{ object.get_previous_by_timestamp.title|truncatewords:3 }}</h4>
+                              </a>
+                           </div>
+                        </div>
+                        {% endif %}
+
+                        {% if object.get_next_by_timestamp %}
+                        <div
+                           class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                           <div class="detials">
+                              <p>Next Post</p>
+                              <a href="{% url 'blog:detail' object.get_next_by_timestamp.slug %}">
+                                 <h4>{{ object.get_next_by_timestamp.title|truncatewords:3 }}</h4>
+                              </a>
+                           </div>
+                           <div class="arrow">
+                              <a href="{% url 'blog:detail' object.get_next_by_timestamp.slug %}">
+                                 <span class="lnr text-white ti-arrow-right"></span>
+                              </a>
+                           </div>
+                           {% if object.get_next_by_timestamp.image %}
+                           <div class="thumb">
+                              <a href="{% url 'blog:detail' object.get_next_by_timestamp.slug %}">
+                                 <img class="img-fluid" src="{{ object.get_next_by_timestamp.image.url }}" alt="" style="width: 100px;">
+                              </a>
+                           </div>
+                          {% endif %}
+                        </div>
+                        {% endif %}
+                     </div>
+                  </div>
+               </div>
+               <div class="blog-author">
+                  <div class="media align-items-center">
+                     <a href="{% url 'main:user-profile' object.user.userprofile.id %}">
+                     
+                     {% if object.user.userprofile.profile_pic %}
+                        <img src="{{ object.user.userprofile.profile_pic.url }}" alt="">
+                     {% else %}
+                        <img src="{% static 'odu-prod/img/profile/default-profile.jpg' %}" alt="">
+                     {% endif %}
+                     
+                     <div class="media-body">
+                           <h4>{{ object.user.userprofile.user }}</h4>
+                        </a>
+                        
+                        {% if object.user.userprofile.bio %}
+                        <p>{{ object.user.userprofile.bio|truncatewords:25 }}</p>
+                        {% endif %}
+                        
+                     <p>
+                        {% if object.user.userprofile.role %}
+                        {{ object.user.userprofile.role }}
+                        <span class="ml-2"></span>
+                        {% endif %}
+
+                        {% if object.user.userprofile.class_name %}
+                        {{ object.user.userprofile.class_name }}
+                        {% endif %}
+                     </p>
+
+                     </div> 
+                  </div>
+               </div>
+
+               {% if comments %}
+               <div class="comments-area" id="comment">
+                  <h4>
+                     {{ comments.count }} Comment{{ comments|pluralize }}</a></li>
+                  </h4>
+                  {% for comment in comments %}
+                  <div class="comment-list">
+                     <div class="single-comment justify-content-between d-flex">
+                        <div class="user justify-content-between d-flex">
+                           <div class="thumb">
+                              <a href="{% url 'main:user-profile' comment.user.id %}">
+                                 {% if comment.user.userprofile.profile_pic %}
+                                    <img src="{{ comment.user.userprofile.profile_pic.url }}" alt="">
+                                 {% else %}
+                                    <img src="{% static 'odu-prod/img/profile/default-profile.jpg' %}" alt="">
+                                 {% endif %}
+                              </a>
+                           </div>
+                           <div class="desc">
+                              <p class="comment">
+                                 {{ comment.body }}
+                              </p>
+                              <div class="d-flex justify-content-between">
+                                 <div class="d-flex align-items-center">
+                                    <h5>
+                                       <a href="{% url 'main:user-profile' comment.user.id %}">{{ comment.user }}</a>
+                                    </h5>
+                                    <p class="date">{{ comment.timestamp|date:"F d, Y" }} at {{ comment.timestamp|date:"P" }} </p>
+                                 </div>
+                                 <div class="reply-btn">
+                                    {% if request.user.id == comment.user.id %}
+                                       <a class="btn-reply text-uppercase" href="{% url 'blog:edit-comment' comment.id %}">Edit</a>
+                                       <a class="btn-reply text-uppercase" href="{% url 'blog:delete-comment' comment.id %}">Delete</a>
+                                    {% endif %}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  {% endfor %}
+               </div>
+               {% endif %}
+               
+               {% if user.is_authenticated %}
+                  
+               <div class="comment-form">
+                  <h4>Leave a Comment</h4>
+                  <form class="form-contact comment_form" method="POST">
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-12">
+                           <div class="form-group">
+                              {{ form.as_p }}
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <button type="submit" class="button button-contactForm btn_1 boxed-btn">Post</button>
+                     </div>
+                  </form>
+               </div>
+
+               {% endif %}
+               
+            </div>
+            <div class="col-lg-4">
+               <div class="blog_right_sidebar">
+
+                  {% include "snippets/category.html" %}
+                  {% include "snippets/recent_post.html" %}
+
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!--================ Blog Area end =================-->
+{% endblock %}
+
+{% block extra_script %}
+   <script>
+      $('#datepicker').datepicker({
+          iconsLibrary: 'fontawesome',
+          icons: {
+           rightIcon: '<span class="fa fa-caret-down"></span>'
+       }
+      });
+      $('#datepicker2').datepicker({
+          iconsLibrary: 'fontawesome',
+          icons: {
+           rightIcon: '<span class="fa fa-caret-down"></span>'
+       }
+
+      });
+  </script>
+{% endblock extra_script %}

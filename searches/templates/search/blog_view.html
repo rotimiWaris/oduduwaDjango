@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if query %}
+    
+    {% if page_obj.paginator.count == 0 %}
+
+    <div class="text-center mb-5 mt-5">
+        <strong>
+            Found <b>0</b> Post.
+            <div style="padding-bottom: 240px;"></div>
+        </strong>
+    </div>
+
+    {% elif page_obj.paginator.count > 0 %}
+    <!-- bradcam_area_start  -->
+    <div class="bradcam_area breadcam_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Blog</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- bradcam_area_end  -->
+    
+    <div class="text-center mt-5 pb-5">
+        <h3>Found <b>{{ page_obj.paginator.count }}</b> Post{{ page_obj.paginator.count|pluralize }}.</h3>
+    </div>
+
+    <!--================Blog Area =================-->
+    <section class="blog_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mb-5 mb-lg-0">
+                    <!-- <div class="col-lg-10 ml-5 pl-5 mb-5 mb-lg-0"> -->
+                    <div class="blog_left_sidebar">
+                    {% for post in object_list %}
+                        <article class="blog_item">
+                            {% if post.image %}
+                            <div class="blog_item_img">
+                                <img class="card-img rounded-0" src="{{ post.image.url }}" alt="" style="width: 70%; height: 50%;">
+                                <a href="{% url 'blog:detail' post.slug %}" class="blog_item_date">
+                                    <h3>{{ post.timestamp|date:"d" }}</h3>
+                                    <p>{{ post.timestamp|date:"N" }}</p>
+                                    <p>{{ post.timestamp|date:"Y" }}</p>
+                                </a>
+                            </div>
+                            {% endif %}
+
+                            <div class="blog_details">
+                                <a class="d-inline-block" href="{% url 'blog:detail' post.slug %}">
+                                    <h2>{{ post.title }}</h2>
+                                </a>
+                                <p>{{ post.content|truncatewords:20|safe|linebreaks }}</p>
+                                <ul class="blog-info-link">
+                                    <li><a href="{% url 'blog:category' post.category|slugify %}" style="text-transform: capitalize;"><i class="fa fa-user"></i> {{ post.category }}</a></li>
+                                    
+                                    {% if post.comments.all %}
+                                    <li><a href="{% url 'blog:detail' post.slug %}#comment"><i class="fa fa-comments"></i> {{ post.comments.all.count }} Comment{{ post.comments.all|pluralize }}</a></li>
+                                    {% endif %}
+                                        
+                                    {% if not post.image %}
+                                        <li>{{ post.timestamp|date:"d, N Y" }}</li>
+                                    {% endif %}
+                                </ul>
+                                <ul class="float-right">
+                                    <li>
+                                        By: <a href="{% url 'main:user-profile' post.user.userprofile.id %}">{{ post.user }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                    {% endfor %}
+
+                    <div class="pb-5 mb-3">
+                        {% include "search/snippets/pagination.html" %}
+                    </div>
+
+                    </div>
+                </div>
+                
+                {% include "snippets/blog-search.html" %}
+
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+    <!--================Blog Area =================-->
+{% else %}
+    <div class="text-center mb-5 mt-5">
+        <strong>
+            <h1>You didn't search for anything...</h1>
+            <div style="padding-bottom: 200px;"></div>
+        </strong>
+    </div>
+
+{% endif %}
+
+{% endblock %}

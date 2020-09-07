@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head_title %} Home {% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+{% if category_posts %}
+    <!-- bradcam_area_start  -->
+    <div class="bradcam_area breadcam_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>{{ category_name }} Categories</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- bradcam_area_end  -->
+
+
+    <!--================Blog Area =================-->
+    <section class="blog_area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mb-5 mb-lg-0">
+                    <!-- <div class="col-lg-10 ml-5 pl-5 mb-5 mb-lg-0"> -->
+                    <div class="blog_left_sidebar">
+                        {% for post in page_obj %}
+                        <article class="blog_item">
+                            {% if post.image %}
+                            <div class="blog_item_img">
+                                <img class="card-img rounded-0" src="{{ post.image.url }}" alt="" style="width: 70%; height: 50%;">
+                                <a href="{% url 'blog:detail' post.slug %}" class="blog_item_date">
+                                    <h3>{{ post.timestamp|date:"d" }}</h3>
+                                    <p>{{ post.timestamp|date:"N" }}</p>
+                                    <p>{{ post.timestamp|date:"Y" }}</p>
+                                </a>
+                            </div>
+                            {% endif %}
+
+                            <div class="blog_details">
+                                <a class="d-inline-block" href="{% url 'blog:detail' post.slug %}">
+                                    <h2>{{ post.title }}</h2>
+                                </a>
+                                <p>{{ post.content|truncatewords:20|safe|linebreaks }}</p>
+                                <ul class="blog-info-link">
+                                    <li style="text-transform: capitalize;"><i class="fa fa-user"></i> {{ post.category }}</li>
+                                    
+                                    {% if post.comments.all %}
+                                    <li><a href="{% url 'blog:detail' post.slug %}#comment"><i class="fa fa-comments"></i> {{ post.comments.all.count }} Comment{{ post.comments.all|pluralize }}</a></li>
+                                    {% endif %}
+                                        
+                                    {% if not post.image %}
+                                        <li>{{ post.timestamp|date:"d, N Y" }}</li>
+                                    {% endif %}
+                                </ul>
+                                <ul class="float-right">
+                                    <li>
+                                        By: <a href="{% url 'main:user-profile' post.user.userprofile.id %}">{{ post.user }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                        {% endfor %}
+
+                        {% include "snippets/pagination.html" %}
+
+                    </div>
+                </div>
+
+                {% include "snippets/blog-search.html" %}
+
+            </div>
+        </div>
+    </section>
+    <!--================Blog Area =================-->
+{% else %}
+<div class="text-center mt-5 mb-5">
+    <h1>Opps... No post for this category yet!</h1>
+</div>
+{% endif %}
+    
+{% endblock content %}
+
+{% block extra_script %}
+<script>
+    $('#datepicker').datepicker({
+        iconsLibrary: 'fontawesome',
+        icons: {
+            rightIcon: '<span class="fa fa-caret-down"></span>'
+        }
+    });
+    $('#datepicker2').datepicker({
+        iconsLibrary: 'fontawesome',
+        icons: {
+            rightIcon: '<span class="fa fa-caret-down"></span>'
+        }
+
+    });
+</script>
+{% endblock extra_script %}

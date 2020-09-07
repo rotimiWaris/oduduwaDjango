@@ -1,0 +1,73 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'odu-prod/css/form.css' %}">
+    <style>
+      body {
+        background: #ccc;
+      }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<div class="main">
+  <section class="signup">
+    <div class="container-form">
+        <div class="signup-content mt-5 mb-5">
+
+        {% get_providers as socialaccount_providers %}
+
+        {% if socialaccount_providers %}
+        <p>{% blocktrans with site.name as site_name %}Please sign in with one
+        of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+        for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+
+        <div class="socialaccount_ballot">
+
+          <ul class="socialaccount_providers">
+            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+          </ul>
+
+          <div class="login-or">{% trans 'or' %}</div>
+
+        </div>
+
+        {% include "socialaccount/snippets/login_extra.html" %}
+
+        {% endif %}
+
+        <form class="signup-form" method="POST" action="{% url 'account_login' %}">
+          <div class="text-center mb-3">
+            <h3>{% trans "Sign In" %}</h3>
+          </div>
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.as_p }}
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+          </div>
+          <button class="form-submit btn primaryAction" type="submit">{% trans "Sign In" %}</button>
+        </form>
+        <p class="loginhere mt-5">
+          {% blocktrans %}If you have not created an account yet, then please
+          <a class="loginhere-link" href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}
+          <a class="button secondaryAction loginhere-link" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+
+{% block extra_script %}
+    <script src="{% static 'odu-prod/js/form.js' %}"></script>
+{% endblock %}

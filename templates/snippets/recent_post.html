@@ -1,0 +1,23 @@
+<aside class="single_sidebar_widget popular_post_widget">
+    <h3 class="widget_title">Recent Post</h3>
+
+    {% for post in object_list %}
+    <div class="media post_item">
+       
+       {% if post.image %}
+       <img src="{{ post.image.url }}" alt="post" style="width: 40px;">
+       {% endif %}
+
+       <div class="media-body">
+          <a href="{% url 'blog:detail' post.slug %}">
+             <h3>{{ post.title|truncatewords:5 }}</h3>
+          </a>
+          <p>{{ post.timestamp|date:"F d, Y" }}</p>
+       </div>
+    </div>
+    {% if forloop.counter == 5 %}
+       <div style="display: none;">
+          {% endif %}
+          {% endfor %}
+       </div>
+ </aside>

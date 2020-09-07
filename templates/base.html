@@ -1,0 +1,82 @@
+{% load static %}
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Oduduwa Jun Sec Schools - {% block head_title%}Home{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'odu-prod/img/favicon.png' %}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{% static 'odu-prod/css/mdb.min.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/gijgo.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/slicknav.css' %}">
+    <link rel="stylesheet" href="{% static 'odu-prod/css/style.css' %}">
+    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+    {% block extra_head %}
+    {% endblock %}
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+    <!-- header -->
+    {% include 'snippets/navbar.html' %}
+
+    {% block content %}
+    {% endblock %}
+    
+    <!-- footer -->
+    {% include 'snippets/footer.html' %}
+
+    <!-- JS here -->
+    <script src="{% static 'odu-prod/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/vendor/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/popper.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/ajax-form.js' %}"></script>
+    <script src="{% static 'odu-prod/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/scrollIt.js' %}"></script>
+    <script src="{% static 'odu-prod/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/wow.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/nice-select.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/jquery.slicknav.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/plugins.js' %}"></script>
+    <script src="{% static 'odu-prod/js/gijgo.min.js' %}"></script>
+
+    <!--contact js-->
+    <script src="{% static 'odu-prod/js/contact.js' %}"></script>
+    <script src="{% static 'odu-prod/js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/jquery.form.js' %}"></script>
+    <script src="{% static 'odu-prod/js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'odu-prod/js/mail-script.js' %}"></script>
+
+    <script src="{% static 'odu-prod/js/main.js' %}"></script>
+    {% block extra_script %}
+  
+    {% endblock extra_script %}
+</body>
+
+</html>
