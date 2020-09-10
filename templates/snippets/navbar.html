@@ -11,7 +11,7 @@
                             <div class="text_wrap">
                                 <p>
                                 {% if user.is_authenticated %}
-                                    <a href="{% url 'main:user-profile' user.userprofile.id %}"><i class="ti-user"></i>  {{ request.user }}</a> <a href="{% url 'account_logout' %}">Logout</a>
+                                    <a href="{% url 'main:user-profile' slug=user.userprofile.slug %}"><i class="ti-user"></i>  {{ request.user }}</a> <a href="{% url 'account_logout' %}">Logout</a>
                                 {% else %}
                                     <a href="{% url 'account_login' %}"> <i class="ti-user"></i>  Login </a><a href="{% url 'account_signup' %}">Register</a>
                                 {% endif %}

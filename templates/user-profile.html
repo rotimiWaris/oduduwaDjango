@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block head_title %} Home {% endblock %}
+{% block head_title %} {{ page_user }} - Profile {% endblock %}
 
 {% block extra_head %}
 <meta name="generator" content="Mobirise v4.3.0, mobirisethemes.com">
@@ -21,7 +21,7 @@
 
                         {% if user.is_authenticated %}
                             {% if user.id == userprofile.user.id %}
-                                <span> - <a href="{% url 'main:edit-profile' user.userprofile.id %}">Edit Your Profile</a></span>
+                                <span> - <a href="{% url 'main:edit-profile' page_user.slug %}">Edit Your Profile</a></span>
                             {% endif %}
                         {% endif %}
                     </h2>
@@ -67,6 +67,7 @@
     </section>
     {% endif %}
 
+    {% if page_user.bio %}
     <section class="mbr-section article content1 cid-qweRvYHJD8" id="content1-4" data-rv-view="493">
         
          
@@ -77,6 +78,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
     
     
 {% endblock  %}

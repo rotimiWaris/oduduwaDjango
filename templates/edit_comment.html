@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block head_title %} Home {% endblock %}
+{% block head_title %} Edit Your Comment {% endblock %}
 
 {% block extra_head %}
 {% endblock %}
@@ -14,8 +14,9 @@
         <h3>Edit Your Comment</h3>
     </div>
 
+<div class="card-body px-lg-5 pt-0">
     <div class="form-group">
-        <form method="post" class="border border-light p-5">
+        <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <div class="text-center">
@@ -23,6 +24,8 @@
             </div>
         </form>
     </div>
+</div>
+
 {% else %}
     <div class="text-center mt-5 mb-5">
         <h1>You're not allowed here!</h1>

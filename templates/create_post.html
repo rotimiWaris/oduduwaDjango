@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block head_title %} Home {% endblock %}
+{% block head_title %} Create A New Post {% endblock %}
 
 {% block extra_head %}
 {% endblock %}
@@ -15,7 +15,7 @@
 
 <div class="card-body px-lg-5 pt-0">
     <div class="form-group">
-        <form method="post" enctype="multipart/form-data" class="border border-light p-5">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.media }}
             {{ form.as_p }}

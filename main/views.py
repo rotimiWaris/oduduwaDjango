@@ -13,14 +13,17 @@ class HomeView(ListView):
     # context_object_name = 
     template_name='index.html'
     
+    
 class ShowProfilePageView(DetailView):
     model = UserProfile
     template_name='user-profile.html'
+    # slug_field = 'user'
+    # slug_url_kwarg = 'username'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        page_user = get_object_or_404(UserProfile, id=self.kwargs['pk'])
+        page_user = get_object_or_404(UserProfile, slug=self.kwargs['slug'].replace('.', ''))
         
         context['page_user'] = page_user
         return context
@@ -32,4 +35,12 @@ class EditProfilePageView(UpdateView):
     form_class = EditProfilePageForm
     # fields = ['bio', 'profile_pic', 'class_name', 'role']
     success_url = reverse_lazy('main:index')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        page_user = get_object_or_404(UserProfile, slug=self.kwargs['slug'].replace('.', ''))
+        
+        context['page_user'] = page_user
+        return context
     

@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
+import dj_database_url
+
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,7 +29,7 @@ SECRET_KEY = '%&jvsl%_(gp9bmu_xn(ah0$e37wn5lo93761m1zh93*&0(10fe'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -180,6 +183,8 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 SITE_ID = 1
+
+django_heroku.settings(locals(), logging=False)
 
 if ENVIRONMENT == 'production':
     # DEBUG = bool(os.environ.get('DEBUG', False))

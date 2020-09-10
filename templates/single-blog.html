@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block head_title %} Home {% endblock %}
+{% block head_title %} {{ object.title }} {% endblock %}
 
 {% block extra_head %}
 {% endblock %}
@@ -156,7 +156,7 @@
                </div>
                <div class="blog-author">
                   <div class="media align-items-center">
-                     <a href="{% url 'main:user-profile' object.user.userprofile.id %}">
+                     <a href="{% url 'main:user-profile' object.user.userprofile.slug %}">
                      
                      {% if object.user.userprofile.profile_pic %}
                         <img src="{{ object.user.userprofile.profile_pic.url }}" alt="">
@@ -197,7 +197,7 @@
                      <div class="single-comment justify-content-between d-flex">
                         <div class="user justify-content-between d-flex">
                            <div class="thumb">
-                              <a href="{% url 'main:user-profile' comment.user.id %}">
+                              <a href="{% url 'main:user-profile' comment.user.userprofile.slug %}">
                                  {% if comment.user.userprofile.profile_pic %}
                                     <img src="{{ comment.user.userprofile.profile_pic.url }}" alt="">
                                  {% else %}
@@ -212,7 +212,7 @@
                               <div class="d-flex justify-content-between">
                                  <div class="d-flex align-items-center">
                                     <h5>
-                                       <a href="{% url 'main:user-profile' comment.user.id %}">{{ comment.user }}</a>
+                                       <a href="{% url 'main:user-profile' comment.user.userprofile.slug %}">{{ comment.user }}</a>
                                     </h5>
                                     <p class="date">{{ comment.timestamp|date:"F d, Y" }} at {{ comment.timestamp|date:"P" }} </p>
                                  </div>

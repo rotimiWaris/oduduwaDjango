@@ -5,14 +5,14 @@ from django.utils import timezone
 from django.shortcuts import reverse
 from datetime import datetime, date
 from ckeditor.fields import RichTextField
-from django.db.models.signals import pre_save
-from oduduwa.utils import unique_slug_generator
-# from django.contrib.auth.models import User
+from django.db.models.signals import pre_save, post_save
+from oduduwa.utils import unique_slug_generator, unique_slug_generator_for_user
+from django.contrib.auth.models import User
 
 
 CATEGORY_CHOICES = [
-    ('coding', 'Coding'),
-    ('entertainment', 'Entertainment')
+    ('announcement', 'Announcement'),
+    ('school news', 'School News')
     ]
 
 
@@ -65,7 +65,8 @@ class BlogPostManager(models.Manager):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=500, null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     profile_pic = models.ImageField(null=True, blank=True, upload_to="profile-images/")
     class_name = models.CharField(choices=CLASS_NAME_CHOICES, max_length=225, null=True, blank=True)
@@ -73,6 +74,20 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+def create_profile(sender, **kwargs):
+    if kwargs['created']:
+        user_profile = UserProfile.objects.create(user=kwargs['instance'])
+
+post_save.connect(create_profile, sender=User)
+
+
+def slug_generator_for_user(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator_for_user(instance)
+
+pre_save.connect(slug_generator_for_user, sender=UserProfile)
 
 
 class BlogPost(models.Model):
@@ -84,7 +99,7 @@ class BlogPost(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=225)
-    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='blog_posts_likes', null=True, blank=True)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='blog_posts_likes')
     # image = models.ImageField(upload_to='image/', blank=True, null=True)
     # slug = models.SlugField(unique=True)
     # publish_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)

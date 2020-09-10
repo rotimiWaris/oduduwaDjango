@@ -10,6 +10,6 @@ app_name = 'main'
 
 urlpatterns = [
     path('', HomeView.as_view(), name='index'),
-    path('<int:pk>/accounts/profile/', ShowProfilePageView.as_view(), name='user-profile'),
-    path('<int:pk>/accounts/edit/profile/', login_required(EditProfilePageView.as_view()), name='edit-profile'),
+    path('<slug>/accounts/profile/', ShowProfilePageView.as_view(), name='user-profile'),
+    path('<slug>/accounts/edit/profile/', login_required(EditProfilePageView.as_view()), name='edit-profile'),
 ]
